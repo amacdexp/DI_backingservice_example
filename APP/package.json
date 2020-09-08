@@ -1,0 +1,22 @@
+{
+  "name": "ditest",
+  "description": "SAP DI Async Test",
+  "version": "0.0.1",
+  "author": "aron macdonald <aron_macdonald@hotmail.com>",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "@sap/xssec": "latest",
+    "@sap/xsenv": "latest",
+    "@sap/logging": "latest",
+    "express": "latest",
+    "passport": "latest",
+    "stringify-object": "latest",
+    "ws": "latest",
+    "axios": "latest"
+  },
+  "main": "server.js",
+  "license": "MIT"
+}

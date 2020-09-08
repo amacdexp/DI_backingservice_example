@@ -1,0 +1,110 @@
+DROP TABLE TESTTAB;
+CREATE TABLE TESTTAB (
+	COLA NVARCHAR(20),
+	COLB NVARCHAR(20),
+	COLC NVARCHAR(20),
+	COLD NVARCHAR(20),
+	COLE NVARCHAR(20),
+	COLF NVARCHAR(20),
+	COLG NVARCHAR(20),
+	COLH NVARCHAR(20),
+	COLI NVARCHAR(20),
+	COLJ NVARCHAR(20),
+	COLK NVARCHAR(20),
+	MEASURE1 Double,
+	MEASURE2 Double,
+	MEASURE3 Double,
+	MEASURE4 Double
+)
+;
+
+INSERT INTO TESTTAB (COLA, COLB, COLC, MEASURE1) VALUES ('AAAA1', 'BBBB1', 'CCCC1', 100.00);
+INSERT INTO TESTTAB (COLA, COLB, COLC, MEASURE1) VALUES ('AAAA1', 'BBBB1', 'CCCC2', 100.00);
+INSERT INTO TESTTAB (COLA, COLB, COLC, MEASURE1) VALUES ('AAAA1', 'BBBB1', 'CCCC3', 100.00);
+
+INSERT INTO TESTTAB (COLA, COLB, COLC, MEASURE1) VALUES ('AAAA1', 'BBBB2', 'CCCC1', 100.00);
+INSERT INTO TESTTAB (COLA, COLB, COLC, MEASURE1) VALUES ('AAAA1', 'BBBB3', 'CCCC2', 100.00);
+INSERT INTO TESTTAB (COLA, COLB, COLC, MEASURE1) VALUES ('AAAA2', 'BBBB4', 'CCCC3', 100.00);
+INSERT INTO TESTTAB (COLA, COLB, COLC, MEASURE1)  VALUES ('AAAA2', 'BBBB1', 'CCCC4', 100.00);
+
+
+SELECT * FROM TESTTAB;
+
+
+
+truncate table TESTTAB;
+
+
+insert into "TESTTAB"("COLA", "COLB","COLC", "COLD","COLE", "COLF","COLG", "COLH","COLI", "COLJ","COLK" , "MEASURE1", "MEASURE2", "MEASURE3", "MEASURE4")
+-- 1m 
+-- 10m 
+--select count(*) from (
+
+(
+   select * 
+-- select  
+--         "COLA", "COLB","COLC", "COLD","COLE", "COLF","COLG", "COLH","COLI", "COLJ","COLK", 
+--         sum("MEASURE1") as "MEASURE1", sum("MEASURE2") as "MEASURE2", sum("MEASURE3") as "MEASURE3", sum("MEASURE4") as "MEASURE4"
+
+ from (
+  
+  select top 5000000     --10 million breaks it  --5 Million twice ok
+    to_char(round(RAND()*10000,0)) as "COLA",  -- CHAR4
+	to_char(round(RAND()*10000,0)) as "COLB",  -- CHAR4
+	to_char(round(RAND()*10000,0)) as "COLC",  -- CHAR4
+	to_char(round(RAND()*10000,0)) as "COLD",  -- CHAR4
+	to_char(round(RAND()*10000,0)) as "COLE",  -- CHAR4
+	to_char(round(RAND()*10000,0)) as "COLF",  -- CHAR4
+	to_char(round(RAND()*10000,0)) as "COLG",  -- CHAR4
+	to_char(round(RAND()*10000,0)) as "COLH",  -- CHAR4
+	to_char(round(RAND()*10000,0)) as "COLI",  -- CHAR4
+	to_char(round(RAND()*10000,0)) as "COLJ",  -- CHAR4
+	to_char(round(RAND()*10000,0)) as "COLK",  -- CHAR
+	round(RAND()*100000,2) as "MEASURE1",
+    round(RAND()*100000,2) as "MEASURE2",
+    round(RAND()*100000,2) as "MEASURE3",
+    round(RAND()*100000,2) as "MEASURE4"
+from objects oa, objects ob
+)
+--group by 
+--"COLA", "COLB","COLC", "COLD","COLE", "COLF","COLG", "COLH","COLI", "COLJ","COLK"
+
+)
+;
+
+SELECT COUNT(*) as OB_COUNT,   COUNT(*) * COUNT(*) as CJ1 FROM objects;
+
+SELECT COUNT(*) FROM TESTTAB;
+
+SELECT * FROM TESTTAB;
+
+SELECT * 
+from  M_TABLES
+where schema_name = 'DBADMIN'
+;
+
+SELECT * 
+from  M_CS_TABLES
+where schema_name = 'DBADMIN'
+;
+
+select SCHEMA_NAME
+	, TABLE_NAME
+	, LOADED
+	, SUM(RECORD_COUNT) AS RECORD_COUNT
+	, ROUND(SUM(MEMORY_SIZE_IN_TOTAL)/1024,2) AS MEMORY_SIZE_IN_KiB 
+	, ROUND(SUM(MEMORY_SIZE_IN_TOTAL)/1024/1024,2) AS MEMORY_SIZE_IN_MiB 
+	, ROUND(SUM(MEMORY_SIZE_IN_TOTAL)/1024/1024/1024,4) AS MEMORY_SIZE_IN_GiB
+	, ROUND(SUM(MEMORY_SIZE_IN_DELTA)/1024/1024,2) AS MEMORY_SIZE_IN_DELTA_MiB 
+from  M_CS_TABLES
+where schema_name = 'DBADMIN'
+group by
+	  SCHEMA_NAME
+	, TABLE_NAME
+	, LOADED
+order by
+	  SCHEMA_NAME
+	, TABLE_NAME
+;
+
+

@@ -1,0 +1,30 @@
+git clone https://github.com/amacdexp/DI_backingservice_example.git
+
+
+cf api https://api.cf.us10.hana.ondemand.com
+
+## windows cmd
+Set CF_USER_NAME=<email>
+Set CF_PASSWORD=<password>
+
+## windows powershell
+$env:CF_USER_NAME="<email>" 
+$env:CF_PASSWORD='<password>' 
+cf login -u $env:CF_USER_NAME -p $env:CF_PASSWORD -o ppmhc -s dev
+
+## linux
+export CF_USER_NAME=<email>
+export CF_PASSWORD=<password>
+
+
+
+cd DI_backingservice_example
+
+cd APP
+
+npm init
+npm update
+node app.js
+
+
+
