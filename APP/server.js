@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 //var hdbext = require("@sap/hdbext");
 //var hana = require("@sap/hana-client");
 var express = require("express");

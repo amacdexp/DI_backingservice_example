@@ -23,7 +23,12 @@ cd DI_backingservice_example
 cd APP
 
 npm init
+
+rm -r  node_modules
+rm package-lock.json
 npm update
+
+
 node app.js
 
 

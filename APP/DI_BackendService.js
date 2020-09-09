@@ -1,6 +1,10 @@
-/*eslint-env node, es6 */
+//Call DI Backing Service
+
 "use strict"
-var http = require("http")
+
+//Use local environment variables for ADMIN Credentials if running locally
+require('dotenv').config();
+
 const axios = require('axios');
 module.exports = {
 	callService: (wss, rowcount) => {
@@ -9,9 +13,11 @@ module.exports = {
 		wss.broadcast({user: "DI System", message: "Before HTTP Call\n"})
 		try {
 
+			console.log(`process.env.DI_ADIMN_CREDENTIALS: ${process.env.DI_ADIMN_CREDENTIALS}`);
+
 			axios.get(DI_URL + '/auth/login', {
 				headers: {
-				  'Authorization': 'Basic Z='
+				  'Authorization': 'Basic Z=ff'
 				}
 			  })
 			.then(response => { 
@@ -59,34 +65,6 @@ module.exports = {
 			wss.broadcast({user: "NODEJS", message: error.toString() } )
 		}
 
-		wss.broadcast({user: "NODEJS", message: "After HTTP Call\n"})
-	},
-	callServiceExample: (wss) => {
-		wss.broadcast({user: "NODEJS", message: "Before HTTP Call\n"})
-		try {
-			http.get({
-				path: "http://www.loc.gov/pictures/search/?fo=json&q=SAP&",
-				host: "www.loc.gov",
-				port: "80",
-				headers: {
-					host: "www.loc.gov"
-				}
-			},
-				(response) => {
-					response.setEncoding("utf8")
-					response.on("data", (data) => {
-
-						var outData = {}
-						outData.user = "DI System"
-						outData.message = '[RESPONSE]: ' + data.substring(0, 500)
-						wss.broadcast(outData)
-						//wss.broadcast(data.substring(0, 100))
-					})
-					response.on("error", wss.broadcast)
-				})
-		} catch (err) {
-			wss.broadcast(err.toString())
-		}
 		wss.broadcast({user: "NODEJS", message: "After HTTP Call\n"})
 	}
 }

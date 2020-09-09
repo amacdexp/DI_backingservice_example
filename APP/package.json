@@ -15,7 +15,8 @@
     "passport": "latest",
     "stringify-object": "latest",
     "ws": "latest",
-    "axios": "latest"
+    "axios": "latest",
+    "dotenv": "latest"
   },
   "main": "server.js",
   "license": "MIT"
