@@ -104,6 +104,8 @@ try {
             data
         })
 
+        messge = JSON.stringify(data);
+
         //app.logger.info("[CUSTOM] " + message );
 
         wss.clients.forEach((client) => {
@@ -129,15 +131,24 @@ try {
         app.logger.info("Connected")
 
         ws.on("message", (message) => {
-            app.logger.info(`Received: ${message}`)
-            var data = JSON.parse(message)
+            app.logger.info(`Received message: ${message}`)
+            //var data1 = JSON.stringify(message);
+
+            //app.logger.info(`Received message(Str): ` + data1)
+
+            //app.logger.info(`Received message action: ` + message.action)
+
+            var data = JSON.parse(message);
+            app.logger.info(`Received message [JSON]: ${data}`)
+
             switch (data.action) {
             case "Chat":
                 //app.logger.info("[CUSTOM] " + stringifyObj(message));
-                wss.broadcast(message);
+                wss.broadcast(data);
                 break
             case "callDI":
-                DI_BackendService.callService(wss, '20000000')
+                console.log("message / number of rows : " + data.message +  " ,     int version: " + toString(parseInt(data.message)))
+                DI_BackendService.callService(wss, parseInt(data.message) )
                 break
             default:
                 wss.broadcast(`Error: Undefined Action: ${data.action}`)

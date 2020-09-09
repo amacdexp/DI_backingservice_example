@@ -1,0 +1,11 @@
+
+
+1) Docker file needs to be imported into "Sytem Mainteance -> Files -> Union View '  under  '\files\vflow\dockerfiles' directory
+After import the docker file needs be generated in modelling tool.
+Tags / names may need to be changed.
+
+
+2) Operator file needs to imported into "Sytem Mainteance -> Files -> Union View '  under  '\files\subengine\com\sap\python36\operators' directory
+
+
+3) Pipeline json can be imported into Modeller

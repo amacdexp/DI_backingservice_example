@@ -70,9 +70,10 @@ function index() {
     vAction = "Chat" 
     vAction = "callDI"
 
-    connection.send(JSON.stringify(
+    connection.send( JSON.stringify(
         {user: oModel.oData.user, message: msg, action: vAction}
-    ));
+    )
+    );
     notify('sendMessage', msg, 'alert');
     oMsg.setValue();  // reset textfield
     oMsg.focus();  // focus field       
@@ -116,7 +117,7 @@ function index() {
     }).placeAt("text");
 
     var oSendBtn = new sap.m.Button("sendBtn", {
-            text: "Send",
+            text: "Send # rows from HANA to DI for ML Processing",
             press: function(oEvent) {
             sendMsg();
             } 
