@@ -166,7 +166,7 @@ try {
 
         ws.send(JSON.stringify({
             user: 'NODEJS',
-            message: "Connected to WebSocket"
+            message: "Connected to WebSocket" + "\n"
         }), (error) => {
             if (typeof error !== "undefined") {
                 app.logger.error(`Send Error: ${error.toString()}`)
